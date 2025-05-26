@@ -5,53 +5,112 @@ let computerScore = 0;
 function getComputerChoice(){
     let randInt = Math.floor(Math.random() * choice.length);
     return choice[randInt];
-}   
-
-
-function getHumanChoice(){
-    const input = prompt("It's your turn! Choose either Rock, Paper or Scissors");
-    return input;
 }
 
+function updateScoreDisplay() {
+    document.getElementById('humanScore').textContent = humanScore;
+    document.getElementById('computerScore').textContent = computerScore;
+}
+
+function checkForWinner() {
+    if (humanScore >= 5) {
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = `
+            <div class="winner-announcement">
+                🎉 Congratulations! You won the game! 🎉
+                <br>Final Score: You ${humanScore} - ${computerScore} Computer
+            </div>
+        `;
+        disableGameButtons();
+        showResetButton();
+        return true;
+    } else if (computerScore >= 5) {
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = `
+            <div class="winner-announcement">
+                😔 Game Over! Computer won! 😔
+                <br>Final Score: You ${humanScore} - ${computerScore} Computer
+            </div>
+        `;
+        disableGameButtons();
+        showResetButton();
+        return true;
+    }
+    return false;
+}
+
+function disableGameButtons() {
+    document.getElementById('rockBtn').disabled = true;
+    document.getElementById('paperBtn').disabled = true;
+    document.getElementById('scissorsBtn').disabled = true;
+}
+
+function enableGameButtons() {
+    document.getElementById('rockBtn').disabled = false;
+    document.getElementById('paperBtn').disabled = false;
+    document.getElementById('scissorsBtn').disabled = false;
+}
+
+function showResetButton() {
+    document.getElementById('resetBtn').style.display = 'inline-block';
+}
+
+function resetGame() {
+    humanScore = 0;
+    computerScore = 0;
+    updateScoreDisplay();
+    document.getElementById('result').innerHTML = 'Click a button to play! First to 5 points wins!';
+    enableGameButtons();
+    document.getElementById('resetBtn').style.display = 'none';
+}
 
 function playRound(humanChoice, computerChoice){
     humanChoice = humanChoice.toLowerCase();
+    const resultDiv = document.getElementById('result');
+    
     if(humanChoice === computerChoice){
-        console.log("That is a tie");
+        resultDiv.innerHTML = `
+            <div class="round-result">It's a tie! Both chose ${humanChoice}</div>
+        `;
     }else if((humanChoice === "rock" && computerChoice == "scissors") ||
             (humanChoice === "paper" && computerChoice == "rock") ||
             (humanChoice === "scissors" && computerChoice == "paper")) {
-                console.log("Yayyy, You score a point!");
+                resultDiv.innerHTML = `
+                    <div class="round-result">Yayyy, You score a point!</div>
+                    <div>You chose ${humanChoice}, Computer chose ${computerChoice}</div>
+                `;
                 humanScore++;
     }else{
-        console.log("Haha, you loose a point!");
+        resultDiv.innerHTML = `
+            <div class="round-result">Haha, you lose a point!</div>
+            <div>You chose ${humanChoice}, Computer chose ${computerChoice}</div>
+        `;
         computerScore++;
     }
 }
 
-
-
-
-function playGame(){
-    for(let i = 1; i <=5; i++){
-
-    const humanChoice = getHumanChoice();
+function playGame(playerSelection){
+    const humanChoice = playerSelection;
     const computerChoice = getComputerChoice();
-
+    
     playRound(humanChoice, computerChoice);
-
-    }
-
-    console.log("Human Score: " + humanScore);
-    console.log("Computer Score: " + computerScore);
-
-    if(humanScore > computerScore){
-        console.log("Yayy, you win!")
-    }else{
-        console.log("Sigh, you loose!")
-    }
-
+    
+    updateScoreDisplay();
+    checkForWinner();
 }
 
+document.getElementById('rockBtn').addEventListener('click', function() {
+    playGame('rock');
+});
 
-playGame();
+document.getElementById('paperBtn').addEventListener('click', function() {
+    playGame('paper');
+});
+
+document.getElementById('scissorsBtn').addEventListener('click', function() {
+    playGame('scissors');
+});
+
+document.getElementById('resetBtn').addEventListener('click', function() {
+    resetGame();
+});

@@ -3,9 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rock Paper Scissors</title>
+    <title>Rock Paper Scissors - Step 4</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        .game-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 500px;
+            margin: 0 auto;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .buttons {
+            margin: 20px 0;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            margin: 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        /* ADDED: Persistent score display */
+        .score-container {
+            background-color: #e8f5e8;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .score-display {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        #result {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            min-height: 80px;
+        }
+        .round-result {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        /* ADDED: Winner announcement styling */
+        .winner-announcement {
+            background-color: #ffd700;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .reset-btn {
+            background-color: #ff6b6b;
+            margin-top: 10px;
+        }
+        .reset-btn:hover {
+            background-color: #ff5252;
+        }
+    </style>
 </head>
 <body>
+    <div class="game-container">
+        <h1>Rock Paper Scissors</h1>
+        
+        <!-- ADDED: Persistent score display -->
+        <div class="score-container">
+            <div class="score-display">Human Score: <span id="humanScore">0</span></div>
+            <div class="score-display">Computer Score: <span id="computerScore">0</span></div>
+        </div>
+        
+        <div class="buttons">
+            <button id="rockBtn">Rock</button>
+            <button id="paperBtn">Paper</button>
+            <button id="scissorsBtn">Scissors</button>
+        </div>
+        
+        <div id="result">Click a button to play! First to 5 points wins!</div>
+        
+        <!-- ADDED: Reset button (initially hidden) -->
+        <button id="resetBtn" class="reset-btn" style="display: none;">Play Again</button>
+    </div>
+
+    <!-- CHANGED: External JavaScript file -->
     <script src="script.js"></script>
 </body>
 </html>
